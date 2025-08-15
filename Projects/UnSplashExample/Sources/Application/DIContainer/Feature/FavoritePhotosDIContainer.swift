@@ -7,23 +7,31 @@
 
 import Foundation
 
+import Domain
+
+protocol FavoritePhotosDIContainerDependency: AnyObject {
+    func makePhotoService() -> NetworkService
+    func makePhotosStorage() -> CoreDataPhotosStorage
+}
+
 final class FavoritePhotosDIContainer: DIContainer {
     
-    private let dependency: TabBarDIContainerDependency
+    private let dependency: FavoritePhotosDIContainerDependency
     
-    init(dependency: TabBarDIContainerDependency) {
+    init(dependency: FavoritePhotosDIContainerDependency) {
         self.dependency = dependency
     }
     
-    func makeFavoritePhotosViewController() -> FavoritePhotosViewController {
+    func makeFavoritePhotosViewController(coordinator: FavoritePhotosCoordinator) -> FavoritePhotosViewController {
         return FavoritePhotosViewController(
-            reactor: makeFavoritePhotosReactor()
+            reactor: makeFavoritePhotosReactor(coordinator: coordinator)
         )
     }
     
     // MARK: - Reactor
-    private func makeFavoritePhotosReactor() -> FavoritePhotosReactor {
+    private func makeFavoritePhotosReactor(coordinator: FavoritePhotosCoordinator) -> FavoritePhotosReactor {
         return FavoritePhotosReactor(
+            coordinator: coordinator,
             photoRepository: makePhotoRepository()
         )
     }

@@ -2,26 +2,25 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project(
-    name: "UnSplashExampleDomain",
+    name: "Domain",
     settings: .settings(
         base: [
             "SWIFT_VERSION": "5.9",
             "DEFAULT_PLATFORM_VERSION": "16.0",
-            "MARKETING_VERSION": "1.0.0",
             "ENABLE_BITCODE": false,
             "ENABLE_TESTABILITY": true
         ],
         configurations: [
-            .debug(name: "Debug", xcconfig: .relativeToRoot("Xcconfigs/Debug.xcconfig")),
-            .release(name: "Release", xcconfig: .relativeToRoot("Xcconfigs/Release.xcconfig"))
+            .debug(name: "Debug"),
+            .release(name: "Release")
         ],
         defaultSettings: .recommended(excluding: ["ASSETCATALOG_COMPILER_APPICON_NAME"])
     ),
     targets: [
         .target(
-            name: "UnSplashExampleDomain",
+            name: "Domain",
             destinations: .iOS,
-            product: .app,
+            product: .staticFramework,
             bundleId: "$(PRODUCT_BUNDLE_IDENTIFIER)Domain",
             deploymentTargets: .iOS("16.0"),
             infoPlist: .default,

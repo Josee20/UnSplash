@@ -9,6 +9,8 @@ import Foundation
 import ReactorKit
 import RxSwift
 
+import Domain
+
 final class PhotoSearchReactor: Reactor {
     
     var initialState: State = State()
@@ -34,10 +36,16 @@ final class PhotoSearchReactor: Reactor {
         var isLoading = false
     }
     
+    private weak var coordinator: PhotoSearchCoordinator?
+    
     private let getPhotosUseCase: GetPhotoListUseCase
     private(set) var itemsLayoutList: [PinterestLayoutItem] = []
     
-    init(getPhotosUseCase: GetPhotoListUseCase) {
+    init(
+        coordinator: PhotoSearchCoordinator? = nil,
+        getPhotosUseCase: GetPhotoListUseCase
+    ) {
+        self.coordinator = coordinator
         self.getPhotosUseCase = getPhotosUseCase
     }
     
@@ -81,7 +89,7 @@ final class PhotoSearchReactor: Reactor {
             newState.isLoading = isLoading
         case .showPhotoDetailViewController(let index):
             let photoId = newState.photos.results[index].id
-            
+            coordinator?.showPhotoDetailViewController(photoId: photoId)
         }
         
         return newState

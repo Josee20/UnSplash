@@ -10,14 +10,16 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    
-    private var appDIContainer = AppDIContainer()
+    private var coordinator: AppCoordinator?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let scene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: scene)
-        let mainTabBarController = MainTabBarController(tabBarDIContainer: appDIContainer.makeTabBarDIContainer())
-        window?.rootViewController = mainTabBarController
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(windowScene: windowScene)
+        let navigationController = UINavigationController()
+        let appDIContainer = AppDIContainer()
+        coordinator = AppCoordinator(appDIContainer, navigationController)
+        coordinator?.start()
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
 

@@ -43,6 +43,7 @@ extension Project {
             sources: ["Sources/**"],
             resources: ["Resources/**"],
             dependencies: [
+                .project(target: "Domain", path: "../Domain"),
                 .external(name: "RxSwift"),
                 .external(name: "RxCocoa"),
                 .external(name: "Alamofire"),

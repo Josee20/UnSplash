@@ -7,6 +7,8 @@
 
 import ReactorKit
 
+import Domain
+
 final class PhotoDetailReactor: Reactor {
     
     enum Action {

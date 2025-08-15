@@ -7,13 +7,13 @@
 
 import Foundation
 
-protocol AppDIContainerDependency {
-    func makeCoreDataStorage() -> CoreDataStorage
-}
-
 final class AppDIContainer: DIContainer {
 
     override init() { }
+    
+    private func makeCoreDataStorage() -> CoreDataStorage {
+        return shared { CoreDataStorage.shared }
+    }
     
     func makeTabBarDIContainer() -> TabBarDIContainer {
         return TabBarDIContainer(dependency: self)
@@ -21,8 +21,18 @@ final class AppDIContainer: DIContainer {
     
 }
 
-extension AppDIContainer: AppDIContainerDependency {
-    func makeCoreDataStorage() -> CoreDataStorage {
-        return shared { CoreDataStorage.shared }
+extension AppDIContainer: TabBarDIContainerDependency {
+    func makePhotoService() -> NetworkService {
+        return shared { NetworkService() }
     }
+    
+    func makePhotosStorage() -> CoreDataPhotosStorage {
+        return shared {
+            CoreDataPhotosStorage(
+                coreDataStorage: makeCoreDataStorage()
+            )
+        }
+    }
+    
+    
 }

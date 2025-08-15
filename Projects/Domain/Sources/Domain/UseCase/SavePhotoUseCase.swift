@@ -8,19 +8,19 @@
 import Foundation
 import RxSwift
 
-protocol SavePhotoUseCase {
+public protocol SavePhotoUseCase {
     func execute(_ photo: Photo) -> Single<Photo>
 }
 
-final class DefaultSavePhotoUseCase: SavePhotoUseCase {
+public final class DefaultSavePhotoUseCase: SavePhotoUseCase {
     
     private let photoRepository: PhotoRepository
     
-    init(photoRepository: PhotoRepository) {
+    public init(photoRepository: PhotoRepository) {
         self.photoRepository = photoRepository
     }
     
-    func execute(_ photo: Photo) -> Single<Photo> {
+    public func execute(_ photo: Photo) -> Single<Photo> {
         return photoRepository.savePhoto(photo: photo)
     }
     

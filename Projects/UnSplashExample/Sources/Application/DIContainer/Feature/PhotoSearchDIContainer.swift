@@ -7,27 +7,37 @@
 
 import Foundation
 
-protocol SearchDIContainerDependency {
-    func makePhotoDetailViewController(photoId: String) -> PhotoDetailViewController
+import Domain
+
+protocol PhotoSearchDIContainerDependency {
+    func makePhotoService() -> NetworkService
+    func makePhotosStorage() -> CoreDataPhotosStorage
 }
 
 final class PhotoSearchDIContainer: DIContainer {
     
-    private let dependency: TabBarDIContainerDependency
+    private let dependency: PhotoSearchDIContainerDependency
     
-    init(dependency: TabBarDIContainerDependency) {
+    init(dependency: PhotoSearchDIContainerDependency) {
         self.dependency = dependency
     }
     
-    func makePhotoSearchViewController() -> PhotoSearchViewController {
+    func makePhotoSearchViewController(coordinator: PhotoSearchCoordinator) -> PhotoSearchViewController {
         return PhotoSearchViewController(
-            reactor: makePhotoSearchReactor()
+            reactor: makePhotoSearchReactor(coordinator: coordinator)
+        )
+    }
+    
+    func makePhotoDetailViewController(photoId: String) -> PhotoDetailViewController {
+        return PhotoDetailViewController(
+            reactor: makePhotoDetailReactor(photoId: photoId)
         )
     }
     
     // MARK: - Reactor
-    private func makePhotoSearchReactor() -> PhotoSearchReactor {
+    private func makePhotoSearchReactor(coordinator: PhotoSearchCoordinator) -> PhotoSearchReactor {
         return PhotoSearchReactor(
+            coordinator: coordinator,
             getPhotosUseCase: makeGetPhotoListUseCase()
         )
     }
@@ -75,12 +85,4 @@ final class PhotoSearchDIContainer: DIContainer {
         }
     }
     
-}
-
-extension PhotoSearchDIContainer: SearchDIContainerDependency {
-    func makePhotoDetailViewController(photoId: String) -> PhotoDetailViewController {
-        return PhotoDetailViewController(
-            reactor: makePhotoDetailReactor(photoId: photoId)
-        )
-    }
 }

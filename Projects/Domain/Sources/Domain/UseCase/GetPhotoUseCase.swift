@@ -8,18 +8,18 @@
 import Foundation
 import RxSwift
 
-protocol GetPhotoUseCase {
+public protocol GetPhotoUseCase {
     func execute(photoId: String) -> Single<Photo>
 }
 
-final class DefaultGetPhotoUseCase: GetPhotoUseCase {
+public final class DefaultGetPhotoUseCase: GetPhotoUseCase {
     private let photoRepository: PhotoRepository
     
-    init(photoRepository: PhotoRepository) {
+    public init(photoRepository: PhotoRepository) {
         self.photoRepository = photoRepository
     }
     
-    func execute(photoId: String) -> Single<Photo> {
+    public func execute(photoId: String) -> Single<Photo> {
         return photoRepository.fetchPhoto(photoId: photoId)
     }
 }

@@ -9,6 +9,8 @@
 import Foundation
 import CoreData
 
+import Domain
+
 @objc(PhotoEntity)
 public class PhotoEntity: NSManagedObject {
 

@@ -9,6 +9,8 @@ import Foundation
 import ReactorKit
 import RxSwift
 
+import Domain
+
 struct PinterestLayoutItem {
     let id: UUID = UUID()
     let aspect: CGFloat // height / width
@@ -32,19 +34,24 @@ final class HomeReactor: Reactor {
     struct State {
         var photos: [Photo] = []
         var isLoading = false
-        var moveEvent: MoveEvent?
     }
     
     enum MoveEvent {
         case photoDetail(photoId: String)
     }
     
+    private weak var coordinator: HomeCoordinator?
+    
     private let getPhotosUseCase: GetPhotoListUseCase
     private(set) var itemsLayoutList: [PinterestLayoutItem] = []
     private var page: Int = 0
     private var perPage: Int = 20
     
-    init(getPhotosUseCase: GetPhotoListUseCase) {
+    init(
+        coordinator: HomeCoordinator? = nil,
+        getPhotosUseCase: GetPhotoListUseCase
+    ) {
+        self.coordinator = coordinator
         self.getPhotosUseCase = getPhotosUseCase
     }
     
@@ -88,8 +95,8 @@ final class HomeReactor: Reactor {
             newState.isLoading = isLoading
         case .showPhotoDetailViewController(let index):
             let photoId = newState.photos[index].id
-            print("✅ PhotoID: \(photoId)")
-            newState.moveEvent = .photoDetail(photoId: photoId)
+            print("✅ selected photoID: \(photoId)")
+            coordinator?.showPhotoDetailViewController(photoId: photoId)
         }
         
         return newState

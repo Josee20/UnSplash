@@ -26,11 +26,9 @@ final class HomeViewController: UIViewController, View, Loadable, TabBarHideable
     
     var disposeBag = DisposeBag()
     
-    private let dependency: HomeDIContainerDependency
     var viewDidLoadPublisher = PublishRelay<Void>()
     
-    init(dependency: HomeDIContainerDependency, reactor: HomeReactor) {
-        self.dependency = dependency
+    init(reactor: HomeReactor) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
     }
@@ -92,21 +90,6 @@ final class HomeViewController: UIViewController, View, Loadable, TabBarHideable
             }
             .disposed(by: disposeBag)
         
-        reactor.state
-            .compactMap { $0.moveEvent }
-            .bind(with: self) { (self, event) in
-                switch event {
-                case .photoDetail(let photoId):
-                    self.showPhotoDetailViewController(photoId: photoId)
-                }
-            }
-            .disposed(by: disposeBag)
-    }
-    
-    private func showPhotoDetailViewController(photoId: String) {
-        let photoDetailViewController = dependency.makePhotoDetailViewController(photoId: photoId)
-        photoDetailViewController.modalPresentationStyle = .overFullScreen
-        self.navigationController?.present(photoDetailViewController, animated: true)
     }
 
     private func addSubviews() {

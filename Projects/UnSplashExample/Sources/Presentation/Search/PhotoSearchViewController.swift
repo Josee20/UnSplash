@@ -129,5 +129,3 @@ extension PhotoSearchViewController: PinterestLayoutDelegate {
         return imageAspect * cellWidth
     }
 }
-
-

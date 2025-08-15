@@ -24,7 +24,6 @@ extension TabBarHideable {
             }
         } else {
             UIView.animate(withDuration: 0.25) {
-
                 tabBar.alpha = 0.0
                 tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.maxY)
             }

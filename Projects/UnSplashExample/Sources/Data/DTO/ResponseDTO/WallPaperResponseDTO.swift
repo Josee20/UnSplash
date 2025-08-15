@@ -7,6 +7,8 @@
 
 import Foundation
 
+import Domain
+
 struct WallPaperResponseDTO: Decodable {
     let total: Int
     let total_pages: Int

@@ -7,28 +7,37 @@
 
 import Foundation
 
+import Domain
+
 protocol HomeDIContainerDependency {
-    func makePhotoDetailViewController(photoId: String) -> PhotoDetailViewController
+    func makePhotoService() -> NetworkService
+    func makePhotosStorage() -> CoreDataPhotosStorage
 }
 
 final class HomeDIContainer: DIContainer {
     
-    private let dependency: TabBarDIContainerDependency
+    private let dependency: HomeDIContainerDependency
     
-    init(dependency: TabBarDIContainerDependency) {
+    init(dependency: HomeDIContainerDependency) {
         self.dependency = dependency
     }
     
-    func makeHomeViewController() -> HomeViewController {
+    func makeHomeViewController(coordinator: HomeCoordinator) -> HomeViewController {
         return HomeViewController(
-            dependency: self,
-            reactor: makeHomeReactor()
+            reactor: makeHomeReactor(coordinator: coordinator)
+        )
+    }
+    
+    func makePhotoDetailViewController(photoId: String) -> PhotoDetailViewController {
+        return PhotoDetailViewController(
+            reactor: makePhotoDetailReactor(photoId: photoId)
         )
     }
     
     // MARK: - Reactor
-    private func makeHomeReactor() -> HomeReactor {
+    private func makeHomeReactor(coordinator: HomeCoordinator) -> HomeReactor {
         return HomeReactor(
+            coordinator: coordinator,
             getPhotosUseCase: makeGetPhotoListUseCase()
         )
     }
@@ -76,12 +85,4 @@ final class HomeDIContainer: DIContainer {
         }
     }
     
-}
-
-extension HomeDIContainer: HomeDIContainerDependency {
-    func makePhotoDetailViewController(photoId: String) -> PhotoDetailViewController {
-        return PhotoDetailViewController(
-            reactor: makePhotoDetailReactor(photoId: photoId)
-        )
-    }
 }

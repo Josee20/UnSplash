@@ -14,9 +14,9 @@ protocol TabBarDIContainerDependency {
 
 final class TabBarDIContainer: DIContainer {
     
-    private let dependency: AppDIContainerDependency
+    private let dependency: TabBarDIContainerDependency
 
-    init(dependency: AppDIContainerDependency) {
+    init(dependency: TabBarDIContainerDependency) {
         self.dependency = dependency
     }
     
@@ -34,18 +34,23 @@ final class TabBarDIContainer: DIContainer {
     
 }
 
-extension TabBarDIContainer: TabBarDIContainerDependency {
-    
+// MARK: - Dependency 공통 메소드
+extension TabBarDIContainer {
+    /// `Dependency`
+    ///  - HomeDIContainerDependency
+    ///  - PhotoSearchDIContainerDependency
+    ///  - FavoritePhotosDIContainerDependency
     func makePhotoService() -> NetworkService {
-        return shared { NetworkService() }
+        return dependency.makePhotoService()
     }
     
     func makePhotosStorage() -> CoreDataPhotosStorage {
-        return shared {
-            CoreDataPhotosStorage(
-                coreDataStorage: dependency.makeCoreDataStorage()
-            )
-        }
+        return dependency.makePhotosStorage()
     }
-    
 }
+
+extension TabBarDIContainer: HomeDIContainerDependency {}
+
+extension TabBarDIContainer: PhotoSearchDIContainerDependency {}
+
+extension TabBarDIContainer: FavoritePhotosDIContainerDependency {}

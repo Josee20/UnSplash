@@ -7,6 +7,8 @@
 
 import Foundation
 
+import Domain
+
 struct PhotoResponseDTO: Decodable {
     let id: String
     let createdAt: String

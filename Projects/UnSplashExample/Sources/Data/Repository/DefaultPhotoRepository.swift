@@ -8,6 +8,8 @@
 import Foundation
 import RxSwift
 
+import Domain
+
 final class DefaultPhotoRepository: PhotoRepository {
     
     private let photoService: NetworkService

@@ -7,7 +7,7 @@
 
 import RxSwift
 
-protocol PhotoRepository {
+public protocol PhotoRepository {
     func fetchPhotos(title: String, page: Int) -> Single<WallPaper>
     func fetchPhoto(photoId: String) -> Single<Photo>
     func fetchRandomPhotos(page: Int, perPage: Int) -> Single<[Photo]>

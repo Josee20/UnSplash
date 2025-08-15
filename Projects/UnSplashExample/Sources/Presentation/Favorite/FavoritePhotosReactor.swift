@@ -9,6 +9,8 @@ import Foundation
 import RxSwift
 import ReactorKit
 
+import Domain
+
 final class FavoritePhotosReactor: Reactor {
     
     enum Action {
@@ -35,12 +37,17 @@ final class FavoritePhotosReactor: Reactor {
     
     var initialState: State = State()
     
+    private weak var coordinator: FavoritePhotosCoordinator?
     private let photoRepository: PhotoRepository
     
     private var page: Int = 0
     private var perPage: Int = 20
     
-    init(photoRepository: PhotoRepository) {
+    init(
+        coordinator: FavoritePhotosCoordinator? = nil,
+        photoRepository: PhotoRepository
+    ) {
+        self.coordinator = coordinator
         self.photoRepository = photoRepository
     }
     

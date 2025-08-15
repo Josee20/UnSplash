@@ -11,11 +11,6 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        #if Debug
-        print("✅ This is Debug App")
-        #elseif Release
-        print("✅ This is Release App")
-        #endif
         return true
     }
 

@@ -7,6 +7,18 @@
 
 import UIKit
 
+enum CoordinatorType {
+    case app
+    case tabBar
+    case home
+    case search
+    case favorite
+}
+
+protocol CoordinatorDelegate: AnyObject {
+    func didFinish(childCoordinator: Coordinator)
+}
+
 protocol Coordinator: AnyObject {
     var delegate: CoordinatorDelegate? { get set }
     var navigationController: UINavigationController { get set }
