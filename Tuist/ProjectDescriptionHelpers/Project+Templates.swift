@@ -43,13 +43,7 @@ extension Project {
             sources: ["Sources/**"],
             resources: ["Resources/**"],
             dependencies: [
-                .project(target: "Domain", path: "../Domain"),
-                .external(name: "RxSwift"),
-                .external(name: "RxCocoa"),
-                .external(name: "Alamofire"),
-                .external(name: "SnapKit"),
-                .external(name: "Kingfisher"),
-                .external(name: "ReactorKit")
+                .project(target: "Domain", path: "../Domain")
             ],
             coreDataModels: [.coreDataModel("Sources/Data/CoreDataStorage/CoreDataStorage.xcdatamodeld")]
         )

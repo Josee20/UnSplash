@@ -1,8 +1,15 @@
+//
+//  Project.swift
+//  ProjectDescriptionHelpers
+//
+//  Created by 이동기 on 8/16/25.
+//
+
 import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project(
-    name: "Domain",
+    name: "ThirdPartyLibs",
     settings: .settings(
         base: [
             "SWIFT_VERSION": "5.9",
@@ -18,16 +25,19 @@ let project = Project(
     ),
     targets: [
         .target(
-            name: "Domain",
+            name: "ThirdPartyLibs",
             destinations: .iOS,
             product: .staticFramework,
-            bundleId: "$(PRODUCT_BUNDLE_IDENTIFIER)Domain",
+            bundleId: "$(PRODUCT_BUNDLE_IDENTIFIER)ThirdPartyLibs",
             deploymentTargets: .iOS("16.0"),
             infoPlist: .default,
-            sources: ["Sources/**"],
-            resources: nil,
             dependencies: [
-                .project(target: "ThirdPartyLibs", path: "../ThirdPartyLibs")
+                .external(name: "RxSwift"),
+                .external(name: "RxCocoa"),
+                .external(name: "Alamofire"),
+                .external(name: "SnapKit"),
+                .external(name: "Kingfisher"),
+                .external(name: "ReactorKit")
             ],
         )
     ]
