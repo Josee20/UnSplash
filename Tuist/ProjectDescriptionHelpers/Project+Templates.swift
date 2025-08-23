@@ -43,9 +43,9 @@ extension Project {
             sources: ["Sources/**"],
             resources: ["Resources/**"],
             dependencies: [
-                .project(target: "Domain", path: "../Domain")
-            ],
-            coreDataModels: [.coreDataModel("Sources/Data/CoreDataStorage/CoreDataStorage.xcdatamodeld")]
+                .project(target: "Feature", path: "../Feature")
+            ]
+//            coreDataModels: [.coreDataModel("Sources/Data/CoreDataStorage/CoreDataStorage.xcdatamodeld")]
         )
 
         let testTarget = Target.target(

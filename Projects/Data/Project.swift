@@ -2,14 +2,9 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project(
-    name: "Domain",
+    name: "Data",
     settings: .settings(
-        base: [
-            "SWIFT_VERSION": "5.9",
-            "DEFAULT_PLATFORM_VERSION": "16.0",
-            "ENABLE_BITCODE": false,
-            "ENABLE_TESTABILITY": true
-        ],
+        base: [:],
         configurations: [
             .debug(name: "Debug"),
             .release(name: "Release")
@@ -17,17 +12,18 @@ let project = Project(
     ),
     targets: [
         .target(
-            name: "Domain",
+            name: "Data",
             destinations: .iOS,
             product: .staticFramework,
-            bundleId: "$(PRODUCT_BUNDLE_IDENTIFIER)Domain",
+            bundleId: "$(PRODUCT_BUNDLE_IDENTIFIER)Data",
             deploymentTargets: .iOS("16.0"),
             infoPlist: .default,
             sources: ["Sources/**"],
             resources: nil,
             dependencies: [
-                .project(target: "ThirdPartyLibs", path: "../ThirdPartyLibs")
+                .project(target: "Domain", path: "../Domain")
             ],
-        )
+            coreDataModels: [.coreDataModel("Sources/CoreDataStorage/CoreDataStorage.xcdatamodeld")]
+        ),
     ]
 )
