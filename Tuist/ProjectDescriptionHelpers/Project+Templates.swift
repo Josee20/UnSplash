@@ -45,7 +45,6 @@ extension Project {
             dependencies: [
                 .project(target: "Feature", path: "../Feature")
             ]
-//            coreDataModels: [.coreDataModel("Sources/Data/CoreDataStorage/CoreDataStorage.xcdatamodeld")]
         )
 
         let testTarget = Target.target(

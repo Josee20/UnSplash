@@ -12,6 +12,13 @@ let project = Project(
     ),
     targets: [
         .target(
+            name: "DataResources",
+            destinations: .iOS,
+            product: .bundle,
+            bundleId: "$(PRODUCT_BUNDLE_IDENTIFIER)DataResources",
+            coreDataModels: [.coreDataModel("Sources/CoreDataStorage/CoreDataStorage.xcdatamodeld")]
+        ),
+        .target(
             name: "Data",
             destinations: .iOS,
             product: .staticFramework,
@@ -21,9 +28,9 @@ let project = Project(
             sources: ["Sources/**"],
             resources: nil,
             dependencies: [
-                .project(target: "Domain", path: "../Domain")
-            ],
-            coreDataModels: [.coreDataModel("Sources/CoreDataStorage/CoreDataStorage.xcdatamodeld")]
-        ),
+                .project(target: "Domain", path: "../Domain"),
+                .target(name: "DataResources")
+            ]
+        )
     ]
 )

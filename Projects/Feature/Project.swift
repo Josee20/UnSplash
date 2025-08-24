@@ -23,7 +23,7 @@ let project = Project(
             dependencies: [
                 .project(target: "Presentation", path: "../Presentation"),
                 .project(target: "Data", path: "../Data")
-            ],
+            ]
         )
     ]
 )

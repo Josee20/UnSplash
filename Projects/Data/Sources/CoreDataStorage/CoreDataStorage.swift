@@ -14,7 +14,19 @@ public final class CoreDataStorage {
     private init() { }
     
     private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "CoreDataStorage")
+        guard let bundleURL = Bundle.main.url(forResource: "DataResources", withExtension: "bundle"),
+              let resourceBundle = Bundle(url: bundleURL) else {
+            fatalError("DataResources.bundle not found")
+        }
+        
+        let name = "CoreDataStorage" // ← .xcdatamodeld 폴더명과 정확히 일치해야 함
+        let url = resourceBundle.url(forResource: name, withExtension: "momd") ?? resourceBundle.url(forResource: name, withExtension: "mom")
+        guard let modelURL = url,
+              let model = NSManagedObjectModel(contentsOf: modelURL) else {
+            fatalError("Failed to load model named \(name) in DataResources.bundle")
+        }
+
+        let container = NSPersistentContainer(name: name, managedObjectModel: model)
         container.loadPersistentStores { _, error in
             if let error = error as? NSError {
                 assertionFailure("CoreDataStorage Unresolved error \(error), \(error.userInfo)")
