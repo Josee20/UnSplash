@@ -19,7 +19,7 @@ public final class CoreDataStorage {
             fatalError("DataResources.bundle not found")
         }
         
-        let name = "CoreDataStorage" // ← .xcdatamodeld 폴더명과 정확히 일치해야 함
+        let name = "CoreDataStorage"
         let url = resourceBundle.url(forResource: name, withExtension: "momd") ?? resourceBundle.url(forResource: name, withExtension: "mom")
         guard let modelURL = url,
               let model = NSManagedObjectModel(contentsOf: modelURL) else {
