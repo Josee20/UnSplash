@@ -23,9 +23,9 @@ public final class HomeDIContainer: DIContainer {
     }
     
     // MARK: - Reactor
-    private func makeHomeReactor(coordinator: HomeCoordinator) -> HomeReactor {
+    private func makeHomeReactor(actions: HomeActions) -> HomeReactor {
         return HomeReactor(
-            coordinator: coordinator,
+            actions: actions,
             getPhotosUseCase: makeGetPhotoListUseCase()
         )
     }
@@ -71,9 +71,9 @@ public final class HomeDIContainer: DIContainer {
 }
 
 extension HomeDIContainer: HomeCoordinatorDependency {
-    public func makeHomeViewController(coordinator: HomeCoordinator) -> HomeViewController {
+    public func makeHomeViewController(actions: HomeActions) -> HomeViewController {
         return HomeViewController(
-            reactor: makeHomeReactor(coordinator: coordinator)
+            reactor: makeHomeReactor(actions: actions)
         )
     }
     

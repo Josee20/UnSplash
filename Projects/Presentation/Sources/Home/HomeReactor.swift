@@ -16,42 +16,46 @@ struct PinterestLayoutItem {
     let aspect: CGFloat // height / width
 }
 
+public struct HomeActions {
+    let showPhotoDetail: (String) -> Void
+
+    public init(showPhotoDetail: @escaping (String) -> Void) {
+        self.showPhotoDetail = showPhotoDetail
+    }
+}
+
 public final class HomeReactor: Reactor {
-    
+
     public var initialState: State = State()
 
     public enum Action {
         case viewDidLoad
         case didSelectItem(index: Int)
     }
-    
+
     public enum Mutation {
         case photos(photos: [Photo])
         case setLoading(Bool)
         case showPhotoDetailViewController(index: Int)
     }
-    
+
     public struct State {
         var photos: [Photo] = []
         var isLoading = false
     }
-    
-    enum MoveEvent {
-        case photoDetail(photoId: String)
-    }
-    
-    private weak var coordinator: HomeCoordinator?
-    
+
+    private let actions: HomeActions
+
     private let getPhotosUseCase: GetPhotoListUseCase
     private(set) var itemsLayoutList: [PinterestLayoutItem] = []
     private var page: Int = 0
     private var perPage: Int = 20
-    
+
     public init(
-        coordinator: HomeCoordinator? = nil,
+        actions: HomeActions,
         getPhotosUseCase: GetPhotoListUseCase
     ) {
-        self.coordinator = coordinator
+        self.actions = actions
         self.getPhotosUseCase = getPhotosUseCase
     }
     
@@ -95,8 +99,7 @@ public final class HomeReactor: Reactor {
             newState.isLoading = isLoading
         case .showPhotoDetailViewController(let index):
             let photoId = newState.photos[index].id
-            print("✅ selected photoID: \(photoId)")
-            coordinator?.showPhotoDetailViewController(photoId: photoId)
+            actions.showPhotoDetail(photoId)
         }
         
         return newState

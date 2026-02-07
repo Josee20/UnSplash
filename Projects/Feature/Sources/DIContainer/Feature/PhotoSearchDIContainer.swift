@@ -23,9 +23,9 @@ public final class PhotoSearchDIContainer: DIContainer {
     }
     
     // MARK: - Reactor
-    private func makePhotoSearchReactor(coordinator: PhotoSearchCoordinator) -> PhotoSearchReactor {
+    private func makePhotoSearchReactor(actions: PhotoSearchActions) -> PhotoSearchReactor {
         return PhotoSearchReactor(
-            coordinator: coordinator,
+            actions: actions,
             getPhotosUseCase: makeGetPhotoListUseCase()
         )
     }
@@ -71,9 +71,9 @@ public final class PhotoSearchDIContainer: DIContainer {
 }
 
 extension PhotoSearchDIContainer: PhotoSearchCoordinatorDependency {
-    public func makePhotoSearchViewController(coordinator: PhotoSearchCoordinator) -> PhotoSearchViewController {
+    public func makePhotoSearchViewController(actions: PhotoSearchActions) -> PhotoSearchViewController {
         return PhotoSearchViewController(
-            reactor: makePhotoSearchReactor(coordinator: coordinator)
+            reactor: makePhotoSearchReactor(actions: actions)
         )
     }
     

@@ -11,8 +11,16 @@ import RxSwift
 
 import Domain
 
+public struct PhotoSearchActions {
+    let showPhotoDetail: (String) -> Void
+
+    public init(showPhotoDetail: @escaping (String) -> Void) {
+        self.showPhotoDetail = showPhotoDetail
+    }
+}
+
 public final class PhotoSearchReactor: Reactor {
-    
+
     public var initialState: State = State()
 
     public enum Action {
@@ -20,13 +28,13 @@ public final class PhotoSearchReactor: Reactor {
         case didSearch(keyword: String)
         case didSelectItem(index: Int)
     }
-    
+
     public enum Mutation {
         case photos(wallPaper: WallPaper)
         case setLoading(Bool)
         case showPhotoDetailViewController(index: Int)
     }
-    
+
     public struct State {
         var photos = WallPaper(
             total: 0,
@@ -35,17 +43,17 @@ public final class PhotoSearchReactor: Reactor {
         )
         var isLoading = false
     }
-    
-    private weak var coordinator: PhotoSearchCoordinator?
-    
+
+    private let actions: PhotoSearchActions
+
     private let getPhotosUseCase: GetPhotoListUseCase
     private(set) var itemsLayoutList: [PinterestLayoutItem] = []
-    
+
     public init(
-        coordinator: PhotoSearchCoordinator? = nil,
+        actions: PhotoSearchActions,
         getPhotosUseCase: GetPhotoListUseCase
     ) {
-        self.coordinator = coordinator
+        self.actions = actions
         self.getPhotosUseCase = getPhotosUseCase
     }
     
@@ -89,7 +97,7 @@ public final class PhotoSearchReactor: Reactor {
             newState.isLoading = isLoading
         case .showPhotoDetailViewController(let index):
             let photoId = newState.photos.results[index].id
-            coordinator?.showPhotoDetailViewController(photoId: photoId)
+            actions.showPhotoDetail(photoId)
         }
         
         return newState

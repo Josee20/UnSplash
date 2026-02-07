@@ -9,19 +9,19 @@
 import UIKit
 
 public protocol HomeCoordinatorDependency: AnyObject {
-    func makeHomeViewController(coordinator: HomeCoordinator) -> HomeViewController
+    func makeHomeViewController(actions: HomeActions) -> HomeViewController
     func makePhotoDetailViewController(photoId: String) -> PhotoDetailViewController
 }
 
 public final class HomeCoordinator: Coordinator {
-    
+
     var delegate: CoordinatorDelegate?
     var navigationController: UINavigationController
     var childCoordinators: [Coordinator] = []
     var type: CoordinatorType = .home
-    
+
     private let dependency: HomeCoordinatorDependency
-    
+
     public init(
         _ dependency: HomeCoordinatorDependency,
         _ navigationController: UINavigationController
@@ -29,17 +29,20 @@ public final class HomeCoordinator: Coordinator {
         self.dependency = dependency
         self.navigationController = navigationController
     }
-    
+
     func start() {
-        let viewController = dependency.makeHomeViewController(coordinator: self)
+        let actions = HomeActions(
+            showPhotoDetail: { [weak self] photoId in
+                self?.showPhotoDetailViewController(photoId: photoId)
+            }
+        )
+        let viewController = dependency.makeHomeViewController(actions: actions)
         navigationController.viewControllers = [viewController]
     }
-    
-    public func showPhotoDetailViewController(photoId: String) {
+
+    private func showPhotoDetailViewController(photoId: String) {
         let viewController = dependency.makePhotoDetailViewController(photoId: photoId)
         viewController.modalPresentationStyle = .overFullScreen
         navigationController.present(viewController, animated: true)
     }
-    
-    
 }

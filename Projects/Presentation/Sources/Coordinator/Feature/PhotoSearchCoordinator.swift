@@ -9,19 +9,19 @@
 import UIKit
 
 public protocol PhotoSearchCoordinatorDependency: AnyObject {
-    func makePhotoSearchViewController(coordinator: PhotoSearchCoordinator) -> PhotoSearchViewController
+    func makePhotoSearchViewController(actions: PhotoSearchActions) -> PhotoSearchViewController
     func makePhotoDetailViewController(photoId: String) -> PhotoDetailViewController
 }
 
 public final class PhotoSearchCoordinator: Coordinator {
-    
+
     var delegate: CoordinatorDelegate?
     var navigationController: UINavigationController
     var childCoordinators: [Coordinator] = []
     var type: CoordinatorType = .search
-    
+
     private let dependency: PhotoSearchCoordinatorDependency
-    
+
     public init(
         _ dependency: PhotoSearchCoordinatorDependency,
         _ navigationController: UINavigationController
@@ -29,16 +29,20 @@ public final class PhotoSearchCoordinator: Coordinator {
         self.dependency = dependency
         self.navigationController = navigationController
     }
-    
+
     func start() {
-        let viewController = dependency.makePhotoSearchViewController(coordinator: self)
+        let actions = PhotoSearchActions(
+            showPhotoDetail: { [weak self] photoId in
+                self?.showPhotoDetailViewController(photoId: photoId)
+            }
+        )
+        let viewController = dependency.makePhotoSearchViewController(actions: actions)
         navigationController.viewControllers = [viewController]
     }
-    
-    func showPhotoDetailViewController(photoId: String) {
+
+    private func showPhotoDetailViewController(photoId: String) {
         let viewController = dependency.makePhotoDetailViewController(photoId: photoId)
         viewController.modalPresentationStyle = .overFullScreen
         navigationController.present(viewController, animated: true)
     }
-    
 }
