@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import RxCocoa
 
-final class BaseNavigationBarView: UIView {
+public final class BaseNavigationBarView: UIView {
 
     private let backButton: UIButton = {
         let button = UIButton()
@@ -21,7 +21,7 @@ final class BaseNavigationBarView: UIView {
         return button
     }()
     
-    var backButtonDidTap: ControlEvent<Void> {
+    public var backButtonDidTap: ControlEvent<Void> {
         return backButton.rx.tap
     }
 
@@ -40,7 +40,7 @@ final class BaseNavigationBarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override var intrinsicContentSize: CGSize {
+    public override var intrinsicContentSize: CGSize {
         return CGSize(width: UIView.noIntrinsicMetric, height: 56)
     }
 }

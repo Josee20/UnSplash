@@ -26,7 +26,7 @@ let project = Project(
             sources: ["Sources/**"],
             resources: nil,
             dependencies: [
-                .project(target: "ThirdPartyLibs", path: "../ThirdPartyLibs")
+                .project(target: "Shared", path: "../Shared")
             ],
         )
     ]

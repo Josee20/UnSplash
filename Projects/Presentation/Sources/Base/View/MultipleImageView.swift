@@ -8,12 +8,12 @@
 import UIKit
 import Kingfisher
 
-final class MultipleImageView: UIImageView {
+public final class MultipleImageView: UIImageView {
     
     private let row: Int
     private let column: Int
     
-    init(row: Int, column: Int) {
+    public init(row: Int, column: Int) {
         self.row = row
         self.column = column
         super.init(frame: .zero)
@@ -23,7 +23,7 @@ final class MultipleImageView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setImage(imageUrls: [URL]) {
+    public func setImage(imageUrls: [URL]) {
         guard !(imageUrls.count < (row * column)) else {
             self.kf.setImage(with: imageUrls.first)
             return
@@ -61,7 +61,7 @@ final class MultipleImageView: UIImageView {
         }
     }
     
-    func resetImage() {
+    public func resetImage() {
         self.subviews.forEach {
             $0.removeFromSuperview()
         }

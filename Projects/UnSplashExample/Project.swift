@@ -27,7 +27,9 @@ let project = Project.makeModule(
             sources: ["Sources/**"],
             resources: ["Resources/**"],
             dependencies: [
-                .project(target: "Feature", path: "../Feature")
+                .project(target: "HomeFeature", path: "../Features/HomeFeature"),
+                .project(target: "SearchFeature", path: "../Features/SearchFeature"),
+                .project(target: "CollectionFeature", path: "../Features/CollectionFeature")
             ]
         ),
         Target.makeTarget(

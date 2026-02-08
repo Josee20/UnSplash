@@ -7,9 +7,6 @@
 
 import UIKit
 
-import Feature
-import Presentation
-
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
